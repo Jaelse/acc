@@ -1,11 +1,13 @@
 package com.jaelse.acc.lib.dtos.accounts;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Builder
+@AllArgsConstructor
 public class UpdateAccountDto {
 
     private final String name;
