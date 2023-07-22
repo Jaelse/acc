@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  accDB:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: acc
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+    networks:
+      - acc-network
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "3001:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@acc.com
+      PGADMIN_DEFAULT_PASSWORD: SuperSecret
+    networks:
+      - acc-network
+#  zookeeper:
+#    image: zookeeper:latest
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
+#    volumes:
+#      - ./data/zookeeper:/var/lib/zookeeper/data
+#      - ./data/zookeeper:/var/lib/zookeeper/log
+#    networks:
+#      - seebtc
+#  kafka:
+#    image: bitnami/kafka:latest
+#    container_name: kafka
+#    environment:
+#      - KAFKA_BROKER_ID=1
+#      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+#      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+#      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+#      - ALLOW_PLAINTEXT_LISTENER=yes
+#    ports:
+#      - "9092:9092"
+#    depends_on:
+#      - zookeeper
+#    volumes:
+#      - ./data/kafka:/var/lib/kafka/data
+networks:
+  acc-network:
+    name: "acc-network"

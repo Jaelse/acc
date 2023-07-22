@@ -1,0 +1,11 @@
+server:
+  port: 8080
+spring:
+  r2dbc:
+    host: ${POSTGRES_HOST:localhost}
+    port: ${POSTGRES_PORT:5432}
+    name: ${POSTGRES_DB:postgres}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:acc}
+    pool:
+      enabled: true
