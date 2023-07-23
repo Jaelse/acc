@@ -54,7 +54,6 @@ public class DBConfiguration extends AbstractR2dbcConfiguration {
     @Bean
     @Override
     public ConnectionFactory connectionFactory() {
-
         return ConnectionFactories.get(builder()
                 .option(DRIVER, "pool")
                 .option(PROTOCOL, "postgresql")

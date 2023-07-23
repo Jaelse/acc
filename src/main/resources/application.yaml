@@ -9,6 +9,13 @@ spring:
     password: ${POSTGRES_PASSWORD:acc}
     pool:
       enabled: true
+  jjwt:
+    password:
+      encoder:
+        secret: ${SECRET:supersecretblahblahblahssssseeecretttasdfiieeih@*$(*$*(@#*(*HR#IFIUEAIHUEFAEFIHU}
+        iteration: 33
+        keylength: 256
+    expiration:  86400
   flyway:
     url: jdbc:postgresql://${spring.r2dbc.host}:${spring.r2dbc.port}/${spring.r2dbc.name}
     user: ${spring.r2dbc.username}

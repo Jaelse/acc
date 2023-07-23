@@ -24,21 +24,28 @@ public class SearchAccountHandler implements HandlerFunction<ServerResponse> {
 
     @Override
     public Mono<ServerResponse> handle(ServerRequest request) {
+        // Decoding Body to DTO class
         return request.bodyToMono(SearchAccountDto.class)
+                //Calling search to find the accounts matching the string
                 .flatMap(dto -> service.search(dto)
+                        //Building the account model
                         .map(account -> AccountModel.builder()
                                 .id(account.getId())
                                 .name(account.getName())
                                 .email(account.getEmail())
                                 .build())
+                        //collecting back to list
                         .collectList())
+                //making the response
                 .flatMap(accounts -> ServerResponse
                         .ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromValue(SearchAccountsModel.builder()
                                 .accounts(accounts)
                                 .build()))
-                );
+                )
+                //sending not found if nothing could be found
+                .switchIfEmpty(ServerResponse.notFound().build());
 
     }
 }
