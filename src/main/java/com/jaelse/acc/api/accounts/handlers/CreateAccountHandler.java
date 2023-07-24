@@ -1,8 +1,8 @@
 package com.jaelse.acc.api.accounts.handlers;
 
 import com.jaelse.acc.api.accounts.models.AccountModel;
-import com.jaelse.acc.configurations.security.PBKDF2Encoder;
 import com.jaelse.acc.lib.dtos.accounts.CreateAccountDto;
+import com.jaelse.acc.lib.http_util.HttpUtil;
 import com.jaelse.acc.resources.accounts.service.AccountsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,9 +40,8 @@ public class CreateAccountHandler implements HandlerFunction<ServerResponse> {
                                 .email(account.getEmail())
                                 .build()))
                 )
-                // in case the account didn't get created because of some internal error
-                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .bodyValue("Unable to create the account. Please try again."))
+                // in case the account didn't get created because of some error
+                .onErrorResume(HttpUtil::handleError)
                 // in case the account didn't create for some reason
                 .switchIfEmpty(ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .bodyValue("Unknown error"));
